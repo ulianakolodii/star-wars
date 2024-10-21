@@ -1,7 +1,38 @@
-.list {
+.list-container {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
   height: 80vh;
+}
+.list {
+  height: 100%;
+  width: 100%;
   overflow: auto;
   padding-right: 10px;
+}
+
+.list-header {
+  width: calc(100% - 13px);
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #000;
+  color: #878787;
+}
+
+.list-header > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  padding: 0 8px;
+}
+
+.list-header > div:first-of-type {
+  width: 50%;
+  align-items: flex-end;
 }
 
 .list::-webkit-scrollbar {

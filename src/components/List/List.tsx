@@ -20,13 +20,23 @@ const List: FC = () => {
   }, []);
 
   return (
-    <ul className="list">
-      {heroes &&
-        Object.keys(heroes).map((key) => {
-          const hero = heroes[key];
-          return <ListItem hero={hero} key={hero.id} />;
-        })}
-    </ul>
+    <div className="list-container">
+      <div className="list-header">
+        <div>name</div>
+        <div>birth</div>
+        <div>look</div>
+        <div>home</div>
+        <div>films</div>
+        <div>starships</div>
+      </div>
+      <ul className="list">
+        {heroes &&
+          Object.keys(heroes).map((key) => {
+            const hero = heroes[key];
+            return <ListItem hero={hero} key={hero.id} />;
+          })}
+      </ul>
+    </div>
   );
 };
 
