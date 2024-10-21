@@ -6,6 +6,7 @@
   height: 90px;
   padding: 8px 0;
   border-bottom: 1px solid #000;
+  cursor: pointer;
 }
 
 .list-item > div {
@@ -24,12 +25,38 @@
   align-items: flex-end;
 }
 
+.hero-more {
+  display: none;
+}
+
+.list-item:hover .hero-name {
+  width: 50%;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.list-item:hover div:not(.hero-name) {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.list-item:hover .hero-more {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  font-style: italic;
+  color: #878787;
+}
+
 .hero-name {
   text-align: right;
   font-size: 3rem;
   line-height: 0.9;
   font-weight: 550;
   font-variation-settings: "wdth" 35, "YTFI" 788;
+  transition: transform 0.5s ease-in-out;
 }
 
 .hero-appearance {

@@ -5,6 +5,7 @@ import { Hero } from "../../types/types";
 const ListItem: FC<{ hero: Hero }> = ({ hero }) => {
   return (
     <li className="list-item">
+      <span className="hero-more">click to see more information</span>
       <div className="hero-name">{hero.name}</div>
       <div>{hero.birth_year}</div>
       <div className="hero-appearance">
