@@ -1,9 +1,10 @@
 import './App.css';
+import List from './components/List/List.tsx';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      hello!
+      <List />
     </div>
   );
 }

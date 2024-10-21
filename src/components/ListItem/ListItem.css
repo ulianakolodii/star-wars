@@ -1,0 +1,39 @@
+.list-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 80px;
+  padding: 8px 0;
+  border-bottom: 1px solid #000;
+}
+
+.list-item:first-of-type {
+  border-top: 1px solid #000;
+}
+
+.list-item > div {
+  border-right: 1px solid #000;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.list-item > div:first-of-type {
+  align-items: flex-end;
+}
+
+.hero-name {
+  font-size: 3rem;
+  line-height: 0.9;
+  font-weight: 550;
+  font-variation-settings: "wdth" 35, "YTFI" 788;
+  width: 500px;
+}
+
+.hero-appearance {
+  width: 70px;
+}

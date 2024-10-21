@@ -1,0 +1,20 @@
+.list {
+  height: 80vh;
+  overflow: auto;
+  padding-right: 10px;
+}
+
+.list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 25%;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #878787;
+  border-radius: 4px;
+  border: 2px solid transparent;
+}
