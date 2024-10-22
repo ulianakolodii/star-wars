@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React, { forwardRef } from "react";
 import "./ListItem.css";
 import { Hero } from "../../types/types";
 
-const ListItem: FC<{ hero: Hero }> = ({ hero }) => {
+const ListItem = forwardRef<HTMLLIElement, { hero: Hero }>(({ hero }, ref) => {
   return (
-    <li className="list-item">
+    <li className="list-item" ref={ref}>
       <span className="hero-more">click to see more information</span>
       <div className="hero-name">{hero.name}</div>
       <div>{hero.birth_year}</div>
@@ -18,6 +18,6 @@ const ListItem: FC<{ hero: Hero }> = ({ hero }) => {
       <div>{hero.starships.length}</div>
     </li>
   );
-};
+});
 
 export default ListItem;
