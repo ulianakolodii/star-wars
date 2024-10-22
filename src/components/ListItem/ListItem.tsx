@@ -5,7 +5,9 @@ import { Hero } from "../../types/types";
 const ListItem = forwardRef<HTMLLIElement, { hero: Hero }>(({ hero }, ref) => {
   return (
     <li className="list-item" ref={ref}>
-      <span className="hero-more">click to see more information</span>
+      {window.innerWidth < 768 ? null : (
+        <span className="hero-more">click to see more information</span>
+      )}
       <div className="hero-name">{hero.name}</div>
       <div className="hero-info">
         <div>{hero.birth_year}</div>
