@@ -18,4 +18,4 @@ export type Hero = {
   url: string;
 };
 
-export type Heroes = Record<string, Hero>;
+export type Heroes = Map<string, Hero>;

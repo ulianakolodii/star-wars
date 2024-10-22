@@ -4,7 +4,7 @@ import { Heroes, Hero } from "../../types/types";
 import ListItem from "../ListItem/ListItem.tsx";
 
 const List: FC = () => {
-  const [heroes, setHeroes] = useState<Heroes>({});
+  const [heroes, setHeroes] = useState<Heroes>(new Map());
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -15,13 +15,10 @@ const List: FC = () => {
         `https://sw-api.starnavi.io/people?page=${page}`
       );
       const data = await response.json();
-
-      const newHeroes = data.results.reduce((acc, item) => {
-        acc[item.id] = item;
-        return acc;
-      }, {} as Record<string, Hero>);
-
-      setHeroes((prevHeroes) => ({ ...prevHeroes, ...newHeroes }));
+      const newHeroes = new Map<string, Hero>(
+        data.results.map((hero: Hero) => [hero.id, hero])
+      );
+      setHeroes((prevHeroes) => new Map([...prevHeroes, ...newHeroes]));
       setHasMore(!!data.next);
     } catch (error) {
       console.error("Failed to fetch heroes:", error);
@@ -51,19 +48,19 @@ const List: FC = () => {
 
   return (
     <div className="list-container">
-      <div className="list-header">
-        <div>name</div>
-        <div>birth</div>
-        <div>look</div>
-        <div>home</div>
-        <div>films</div>
-        <div>starships</div>
-      </div>
+      {window.innerWidth > 768 ? (
+        <div className="list-header">
+          <div>name</div>
+          <div>birth</div>
+          <div>look</div>
+          <div>home</div>
+          <div>films</div>
+          <div>starships</div>
+        </div>
+      ) : null}
       <ul className="list">
-        {Object.keys(heroes).map((key, index) => {
-          const hero = heroes[key];
-          const isLastItem = index === Object.keys(heroes).length - 1;
-
+        {Array.from(heroes.values()).map((hero, index) => {
+          const isLastItem = index === heroes.size - 1;
           return (
             <ListItem
               hero={hero}
