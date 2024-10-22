@@ -48,16 +48,17 @@ const List: FC = () => {
 
   return (
     <div className="list-container">
-      {window.innerWidth > 768 ? (
-        <div className="list-header">
-          <div>name</div>
+      <div className="list-header">
+        {window.innerWidth < 768 ? null : <div>name</div>}
+        <div className="list-header__info">
           <div>birth</div>
-          <div>look</div>
+          <div className="list-header__look">look</div>
           <div>home</div>
           <div>films</div>
-          <div>starships</div>
+          <div>ships</div>
         </div>
-      ) : null}
+      </div>
+
       <ul className="list">
         {Array.from(heroes.values()).map((hero, index) => {
           const isLastItem = index === heroes.size - 1;
