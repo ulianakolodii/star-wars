@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import "./List.css";
 import ListItem from "../ListItem/ListItem.tsx";
-import { useHeroes } from "../HeroesContext.tsx";
+import { useHeroes } from "../../context/HeroesContext.tsx";
 
 const List: FC = () => {
   const { heroes, lastElementRef } = useHeroes();

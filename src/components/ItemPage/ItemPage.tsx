@@ -2,6 +2,7 @@ import React, { useRef, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactFlow, {
   Node,
+  Edge,
   Controls,
   ReactFlowProvider,
   addEdge,
@@ -13,10 +14,11 @@ import "reactflow/dist/style.css";
 import "./ItemPage.css";
 import HeroNode from "./HeroNode/HeroNode.tsx";
 import Loader from "../Loader/Loader.tsx";
-import { DnDProvider, useDnD } from "../DnDContext.tsx";
+import { DnDProvider, useDnD } from "../../context/DnDContext.tsx";
 import { Hero } from "../../types/types.ts";
-import { useHeroes } from "../HeroesContext.tsx";
+import { useHeroes } from "../../context/HeroesContext.tsx";
 import NotFoundPage from "../NotFoundPage/NotFoundPage.tsx";
+import { useFilms } from "../../context/FilmsContext.tsx";
 
 const nodeTypes = {
   heroNode: HeroNode,
@@ -25,6 +27,7 @@ const nodeTypes = {
 const DndFlow = () => {
   const { id } = useParams<{ id: string }>();
   const { heroes } = useHeroes();
+  const { films } = useFilms();
   const [hero, setHero] = useState<Hero | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -52,6 +55,10 @@ const DndFlow = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (films.size === 0) return;
+  }, [films]);
 
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -92,18 +99,41 @@ const DndFlow = () => {
   );
 
   useEffect(() => {
-    if (hero) {
+    if (hero && films.size > 0) {
+      const heroNodeId = `hero-${hero.id}`;
       const initialNodes: Node<any>[] = [
         {
-          id: String(hero.id),
+          id: heroNodeId,
           type: "heroNode",
           data: hero,
           position: { x: 50, y: 50 },
         },
+        ...hero.films.map((filmId, index) => {
+          const filmData = films.get(filmId);
+          return {
+            id: `film-${filmId}`,
+            type: "default",
+            data: { label: filmData?.title },
+            position: { x: (index - hero.films.length / 3) * 200, y: 400 },
+          };
+        }),
       ];
+
+      const initialEdges: Edge<any>[] = hero.films.map((filmId) => ({
+        id: `edge-${heroNodeId}-film-${filmId}`,
+        source: heroNodeId,
+        sourceHandle: heroNodeId,
+        target: `film-${filmId}`,
+        type: "smoothstep",
+        animated: true,
+        style: { stroke: "#000" },
+      }));
+
+      console.log("log edges", initialEdges);
       setNodes(initialNodes);
+      setEdges(initialEdges);
     }
-  }, [hero, setNodes]);
+  }, [hero, films, setNodes, setEdges]);
 
   let content;
 

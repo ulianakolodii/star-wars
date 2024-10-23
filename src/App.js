@@ -1,14 +1,24 @@
 // App.tsx
 import "./App.css";
 import React from "react";
-import List from "./components/List/List.tsx"; // Ensure this is the correct extension
-import ItemPage from "./components/ItemPage/ItemPage.tsx"; // Ensure this is the correct extension
+import List from "./components/List/List.tsx"; 
+import ItemPage from "./components/ItemPage/ItemPage.tsx"; 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { HeroesProvider } from "./components/HeroesContext.tsx"; // Import the provider
+import { HeroesProvider } from "./context/HeroesContext.tsx"; 
+import { FilmsProvider } from "./context/FilmsContext.tsx";
+
+
+const AppProviders = ({ children }) => (
+  <HeroesProvider>
+    <FilmsProvider>
+      {children}
+    </FilmsProvider>
+  </HeroesProvider>
+);
 
 const App = () => {
   return (
-    <HeroesProvider>
+    <AppProviders>
       <Router>
         <div className="App">
           <Routes>
@@ -17,7 +27,7 @@ const App = () => {
           </Routes>
         </div>
       </Router>
-    </HeroesProvider>
+    </AppProviders>
   );
 };
 
