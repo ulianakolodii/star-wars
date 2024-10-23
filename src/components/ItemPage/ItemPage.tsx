@@ -129,7 +129,6 @@ const DndFlow = () => {
         style: { stroke: "#000" },
       }));
 
-      console.log("log edges", initialEdges);
       setNodes(initialNodes);
       setEdges(initialEdges);
     }
