@@ -1,6 +1,7 @@
 import { Edge } from "reactflow";
 import { Hero, Film, Ships } from "../types/types";
 
+// Helper function to create edges from hero to films
 const createFilmEdge = (heroNodeId: string, filmId: number): Edge<any> => ({
   id: `edge-${heroNodeId}-film-${filmId}`,
   source: heroNodeId,
@@ -10,6 +11,7 @@ const createFilmEdge = (heroNodeId: string, filmId: number): Edge<any> => ({
   style: { stroke: "#000" },
 });
 
+// Helper function to create edges from films to ships
 const createShipEdge = (filmNodeId: string, shipId: string): Edge<any> => ({
   id: `edge-${filmNodeId}-ship-${shipId}`,
   source: filmNodeId,
@@ -32,6 +34,7 @@ export const createEdges = (
 
   const shipEdges = hero.films.flatMap((filmId) => {
     const filmData = films.get(filmId);
+    // Find hero's starships among the starships in the films
     const matchedShipsIds =
       filmData?.starships.filter((shipId) => hero.starships.includes(shipId)) ||
       [];
