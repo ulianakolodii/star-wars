@@ -25,7 +25,7 @@ export const FilmsProvider = ({ children }) => {
       );
       setFilms(newFilms);
     } catch (error) {
-      console.error("Failed to fetch heroes:", error);
+      console.error("Failed to fetch films:", error);
     }
   }, []);
 

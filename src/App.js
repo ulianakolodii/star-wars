@@ -6,12 +6,15 @@ import ItemPage from "./components/ItemPage/ItemPage.tsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { HeroesProvider } from "./context/HeroesContext.tsx"; 
 import { FilmsProvider } from "./context/FilmsContext.tsx";
+import { ShipsProvider } from "./context/ShipsContext.tsx";
 
 
 const AppProviders = ({ children }) => (
   <HeroesProvider>
     <FilmsProvider>
+      <ShipsProvider>
       {children}
+      </ShipsProvider>
     </FilmsProvider>
   </HeroesProvider>
 );

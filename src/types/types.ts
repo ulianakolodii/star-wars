@@ -27,14 +27,38 @@ export type Film = {
   director: string;
   producer: string;
   release_date: string;
-  species: string[];
-  starships: string[];
-  vehicles: string[];
-  characters: string[];
-  planets: string[];
+  species: number[];
+  starships: number[];
+  vehicles: number[];
+  characters: number[];
+  planets: number[];
   url: string;
   created: string;
   edited: string;
 };
 
 export type Films = Map<number, Film>;
+
+export type Ship = {
+  id: number;
+  name: string;
+  model: string;
+  manufacturer: string;
+  cost_in_credits: string;
+  length: string;
+  max_atmosphering_speed: string;
+  crew: string;
+  passengers: string;
+  cargo_capacity: string;
+  consumables: string;
+  hyperdrive_rating: string;
+  MGLT: string;
+  starship_class: string;
+  pilots: number[];
+  films: number[];
+  created: string;
+  edited: string;
+  url: string;
+};
+
+export type Ships = Map<number, Ship>;
