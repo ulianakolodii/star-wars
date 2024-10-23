@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ReactFlow, {
   Node,
   Edge,
@@ -216,6 +216,7 @@ const DndFlow = () => {
   return (
     <div className="dndflow">
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+        {hero && <Link to="/">← back to list</Link>}
         {content}
       </div>
     </div>
