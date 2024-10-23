@@ -1,6 +1,23 @@
-// utils/createEdges.ts
 import { Edge } from "reactflow";
-import { Hero, Film, Ships } from "../types/types"; // Adjust import based on your types
+import { Hero, Film, Ships } from "../types/types";
+
+const createFilmEdge = (heroNodeId: string, filmId: number): Edge<any> => ({
+  id: `edge-${heroNodeId}-film-${filmId}`,
+  source: heroNodeId,
+  target: `film-${filmId}`,
+  type: "smoothstep",
+  animated: true,
+  style: { stroke: "#000" },
+});
+
+const createShipEdge = (filmNodeId: string, shipId: string): Edge<any> => ({
+  id: `edge-${filmNodeId}-ship-${shipId}`,
+  source: filmNodeId,
+  target: `ship-${shipId}`,
+  type: "smoothstep",
+  animated: true,
+  style: { stroke: "#000" },
+});
 
 export const createEdges = (
   hero: Hero,
@@ -9,35 +26,19 @@ export const createEdges = (
 ): Edge<any>[] => {
   const heroNodeId = `hero-${hero.id}`;
 
-  const filmEdges: Edge<any>[] = hero.films.map((filmId) => {
-    const filmNodeId = `film-${filmId}`;
-    return {
-      id: `edge-${heroNodeId}-${filmNodeId}`,
-      source: heroNodeId,
-      target: filmNodeId,
-      type: "smoothstep",
-      animated: true,
-      style: { stroke: "#000" },
-    };
-  });
+  const filmEdges = hero.films.map((filmId) =>
+    createFilmEdge(heroNodeId, filmId)
+  );
 
-  const shipEdges: Edge<any>[] = hero.films.flatMap((filmId) => {
+  const shipEdges = hero.films.flatMap((filmId) => {
     const filmData = films.get(filmId);
     const matchedShipsIds =
       filmData?.starships.filter((shipId) => hero.starships.includes(shipId)) ||
       [];
 
-    return matchedShipsIds.map((shipId) => {
-      const filmNodeId = `film-${filmId}`;
-      return {
-        id: `edge-${filmNodeId}-ship-${shipId}`,
-        source: filmNodeId,
-        target: `ship-${shipId}`,
-        type: "smoothstep",
-        animated: true,
-        style: { stroke: "#000" },
-      };
-    });
+    return matchedShipsIds.map((shipId) =>
+      createShipEdge(`film-${filmId}`, String(shipId))
+    );
   });
 
   return [...filmEdges, ...shipEdges];
