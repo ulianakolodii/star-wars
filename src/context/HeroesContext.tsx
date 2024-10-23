@@ -1,4 +1,3 @@
-// HeroesContext.tsx
 import React, {
   createContext,
   useContext,
@@ -14,7 +13,7 @@ interface HeroesContextType {
   lastElementRef: (node: HTMLLIElement | null) => void;
 }
 
-const HeroesContext = createContext<HeroesContextType | null>(null);
+export const HeroesContext = createContext<HeroesContextType | null>(null);
 
 export const HeroesProvider = ({ children }) => {
   const [heroes, setHeroes] = useState<Heroes>(new Map());

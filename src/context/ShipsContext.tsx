@@ -11,7 +11,7 @@ interface ShipsContextType {
   ships: Ships;
 }
 
-const ShipsContext = createContext<ShipsContextType | null>(null);
+export const ShipsContext = createContext<ShipsContextType | null>(null);
 
 export const ShipsProvider = ({ children }) => {
   const [ships, setShips] = useState<Map<number, Ship>>(new Map());

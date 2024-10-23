@@ -11,7 +11,7 @@ interface FilmsContextType {
   films: Films;
 }
 
-const FilmsContext = createContext<FilmsContextType | null>(null);
+export const FilmsContext = createContext<FilmsContextType | null>(null);
 
 export const FilmsProvider = ({ children }) => {
   const [films, setFilms] = useState<Films>(new Map());
