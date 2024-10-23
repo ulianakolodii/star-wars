@@ -1,6 +1,30 @@
-// utils/createNode.ts
 import { Node } from "reactflow";
 import { Hero, Film, Ships } from "../types/types";
+
+// Helper function to create a ship node
+const createShipNode = (
+  shipId: string,
+  shipData: any,
+  idx: number
+): Node<any> => ({
+  id: `ship-${shipId}`,
+  type: "shipNode",
+  data: shipData,
+  position: { x: idx * 300, y: 800 },
+});
+
+// Helper function to create a film node
+const createFilmNode = (
+  filmsAmount: number,
+  filmId: number,
+  filmData: Film,
+  index: number
+): Node<any> => ({
+  id: `film-${filmId}`,
+  type: "filmNode",
+  data: filmData,
+  position: { x: (index - filmsAmount / 3) * 300, y: 400 }, // Adjusted for dynamic position
+});
 
 export const createNodes = (
   hero: Hero,
@@ -18,7 +42,8 @@ export const createNodes = (
   ];
 
   hero.films.forEach((filmId, index) => {
-    const filmData = films.get(filmId);
+    const filmData = films.get(filmId) as Film;
+    // Find hero's starships among the starships in the films
     const matchedShipsIds =
       filmData?.starships.filter((shipId) => hero.starships.includes(shipId)) ||
       [];
@@ -26,24 +51,11 @@ export const createNodes = (
     const shipNodes = matchedShipsIds
       .map((shipId, idx) => {
         const shipData = ships.get(shipId);
-        return shipData
-          ? {
-              id: `ship-${shipId}`,
-              type: "shipNode",
-              data: shipData,
-              position: { x: idx * 300, y: 800 },
-            }
-          : null;
+        return shipData ? createShipNode(String(shipId), shipData, idx) : null;
       })
       .filter((node) => node !== null);
 
-    const filmNode = {
-      id: `film-${filmId}`,
-      type: "filmNode",
-      data: filmData,
-      position: { x: (index - hero.films.length / 3) * 300, y: 400 },
-    };
-
+    const filmNode = createFilmNode(hero.films.length, filmId, filmData, index);
     nodes.push(filmNode, ...shipNodes);
   });
 
