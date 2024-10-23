@@ -11,7 +11,7 @@
 
   @media (min-width: 768px) {
     flex-direction: row;
-    height: 90px;
+    height: 100px;
   }
 
   > div:first-of-type {
