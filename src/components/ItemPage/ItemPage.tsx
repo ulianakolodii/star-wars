@@ -40,7 +40,7 @@ const DndFlow = () => {
   }, [id]);
 
   useEffect(() => {
-    if (!heroes || heroes.size === 0 || !heroes.get(Number(id))) {
+    if (!heroes.get(Number(id))) {
       fetchHero();
     } else {
       const fetchedHero = heroes.get(Number(id));
@@ -48,7 +48,8 @@ const DndFlow = () => {
         setHero(fetchedHero);
       }
     }
-  }, [heroes, fetchHero, id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -56,7 +57,7 @@ const DndFlow = () => {
   const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
   let nodeId = Number(id);
-  const getId = () => `dndnode_${nodeId++}`;
+  const getId = useCallback(() => `dndnode_${nodeId++}`, [nodeId]);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
