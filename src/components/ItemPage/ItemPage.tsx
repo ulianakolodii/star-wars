@@ -85,7 +85,7 @@ const DndFlow = () => {
 
   if (loading) {
     content = <Loader />;
-  } else if (!hero) {
+  } else if (!hero || hero?.detail === "Not found.") {
     content = <NotFoundPage />;
   } else {
     content = (
@@ -106,7 +106,11 @@ const DndFlow = () => {
   return (
     <div className="dndflow">
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-        {hero && <Link to="/">← back to list</Link>}
+        {hero && hero?.detail !== "Not found." && (
+          <Link to="/" className="flow-back-link">
+            ← back to list
+          </Link>
+        )}
         {content}
       </div>
     </div>

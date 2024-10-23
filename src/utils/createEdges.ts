@@ -26,8 +26,10 @@ export const createEdges = (
   films: Map<number, Film>,
   ships: Ships
 ): Edge<any>[] => {
+  if (hero.detail === "Not found.") {
+    return [];
+  }
   const heroNodeId = `hero-${hero.id}`;
-
   const filmEdges = hero.films.map((filmId) =>
     createFilmEdge(heroNodeId, filmId)
   );

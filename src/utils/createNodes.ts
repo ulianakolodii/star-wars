@@ -31,6 +31,9 @@ export const createNodes = (
   films: Map<number, Film>,
   ships: Ships
 ): Node<any>[] => {
+  if (hero.detail === "Not found.") {
+    return [];
+  }
   const heroNodeId = `hero-${hero.id}`;
   const nodes: Node<any>[] = [
     {

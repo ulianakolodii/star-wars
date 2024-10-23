@@ -16,6 +16,7 @@ export type Hero = {
   starships: number[];
   vehicles: number[];
   url: string;
+  detail?: string;
 };
 
 export type Heroes = Map<number, Hero>;
