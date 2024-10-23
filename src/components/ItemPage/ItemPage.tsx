@@ -13,6 +13,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import "./ItemPage.css";
 import HeroNode from "./HeroNode/HeroNode.tsx";
+import FilmNode from "./FilmNode/FilmNode.tsx";
 import Loader from "../Loader/Loader.tsx";
 import { DnDProvider, useDnD } from "../../context/DnDContext.tsx";
 import { Hero } from "../../types/types.ts";
@@ -22,6 +23,7 @@ import { useFilms } from "../../context/FilmsContext.tsx";
 
 const nodeTypes = {
   heroNode: HeroNode,
+  filmNode: FilmNode,
 };
 
 const DndFlow = () => {
@@ -112,9 +114,9 @@ const DndFlow = () => {
           const filmData = films.get(filmId);
           return {
             id: `film-${filmId}`,
-            type: "default",
-            data: { label: filmData?.title },
-            position: { x: (index - hero.films.length / 3) * 200, y: 400 },
+            type: "filmNode",
+            data: filmData,
+            position: { x: (index - hero.films.length / 3) * 250, y: 400 },
           };
         }),
       ];
