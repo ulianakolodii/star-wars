@@ -12,9 +12,11 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import "./ItemPage.css";
 import HeroNode from "./HeroNode/HeroNode.tsx";
+import Loader from "../Loader/Loader.tsx";
 import { DnDProvider, useDnD } from "../DnDContext.tsx";
 import { Hero } from "../../types/types.ts";
 import { useHeroes } from "../HeroesContext.tsx";
+import NotFoundPage from "../NotFoundPage/NotFoundPage.tsx";
 
 const nodeTypes = {
   heroNode: HeroNode,
@@ -106,9 +108,9 @@ const DndFlow = () => {
   let content;
 
   if (loading) {
-    content = <div className="loader">Loading...</div>; // Loader component or message
+    content = <Loader />;
   } else if (!hero) {
-    content = <div>Hero not found!</div>; // Handle case when hero is not found
+    content = <NotFoundPage />;
   } else {
     content = (
       <ReactFlow
