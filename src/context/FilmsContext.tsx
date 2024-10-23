@@ -7,11 +7,11 @@ import React, {
 } from "react";
 import { Film, Films } from "../types/types";
 
-interface HeroesContextType {
+interface FilmsContextType {
   films: Films;
 }
 
-const FilmsContext = createContext<HeroesContextType | null>(null);
+const FilmsContext = createContext<FilmsContextType | null>(null);
 
 export const FilmsProvider = ({ children }) => {
   const [films, setFilms] = useState<Films>(new Map());
