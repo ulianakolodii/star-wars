@@ -116,7 +116,7 @@ const DndFlow = () => {
             id: `film-${filmId}`,
             type: "filmNode",
             data: filmData,
-            position: { x: (index - hero.films.length / 3) * 250, y: 400 },
+            position: { x: (index - hero.films.length / 3) * 300, y: 400 },
           };
         }),
       ];
