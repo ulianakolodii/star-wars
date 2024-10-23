@@ -1,13 +1,10 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactFlow, {
-  Node,
-  Edge,
   Controls,
   ReactFlowProvider,
   useNodesState,
   useEdgesState,
-  useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import "./ItemPage.css";
@@ -17,7 +14,6 @@ import HeroNode from "./HeroNode/HeroNode.tsx";
 import FilmNode from "./FilmNode/FilmNode.tsx";
 import ShipNode from "./ShipNode/ShipNode.tsx";
 import { Hero } from "../../types/types.ts";
-import { DnDProvider, useDnD } from "../../context/DnDContext.tsx";
 import { useHeroes } from "../../context/HeroesContext.tsx";
 import { useFilms } from "../../context/FilmsContext.tsx";
 import { useShips } from "../../context/ShipsContext.tsx";
@@ -70,40 +66,11 @@ const DndFlow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition } = useReactFlow();
-  const [type] = useDnD();
-  let nodeId = Number(id);
-  const getId = useCallback(() => `dndnode_${nodeId++}`, [nodeId]);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
-
-  const onDrop = useCallback(
-    (event) => {
-      event.preventDefault();
-
-      if (!type) {
-        return;
-      }
-
-      const position = screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-
-      const newNode: any = {
-        id: getId(),
-        type,
-        position,
-        data: hero,
-      };
-
-      setNodes((nds) => nds.concat(newNode));
-    },
-    [screenToFlowPosition, type, getId, hero, setNodes]
-  );
 
   useEffect(() => {
     if (hero && films.size > 0 && ships.size > 0) {
@@ -127,7 +94,6 @@ const DndFlow = () => {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onDrop={onDrop}
         onDragOver={onDragOver}
         fitView
         nodeTypes={nodeTypes}
@@ -149,9 +115,7 @@ const DndFlow = () => {
 
 const ItemPage = () => (
   <ReactFlowProvider>
-    <DnDProvider>
-      <DndFlow />
-    </DnDProvider>
+    <DndFlow />
   </ReactFlowProvider>
 );
 
