@@ -1,0 +1,51 @@
+.ship-node {
+  height: 250px;
+  width: 200px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  line-height: 100%;
+  span {
+    font-size: 10px;
+    color: #878787;
+    font-style: italic;
+    margin-right: 4px;
+  }
+}
+
+.ship-node__title {
+  line-height: 0.9rem;
+  font-size: 20px;
+  font-weight: 550;
+  font-variation-settings: "wdth" 35, "YTFI" 788;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.ship-node__divider {
+  height: 1px;
+  width: 100%;
+  background-color: #878787;
+  margin: 4px 0;
+}
+.ship-node__divider + div {
+  margin-top: 8px;
+}
+
+.ship-node__block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+  gap: 6px;
+}
+
+.ship-node__block div {
+  text-align: center;
+}

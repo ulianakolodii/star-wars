@@ -30,6 +30,7 @@ const FilmNode: FC<FilmNodeProps> = ({ data }) => {
           </div>
         </div>
       </div>
+      <Handle type="source" position={Position.Bottom} />
       <Handle type="target" position={Position.Top} />
     </>
   );

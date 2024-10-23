@@ -12,24 +12,28 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import "./ItemPage.css";
+import Loader from "../Loader/Loader.tsx";
+import NotFoundPage from "../NotFoundPage/NotFoundPage.tsx";
 import HeroNode from "./HeroNode/HeroNode.tsx";
 import FilmNode from "./FilmNode/FilmNode.tsx";
-import Loader from "../Loader/Loader.tsx";
-import { DnDProvider, useDnD } from "../../context/DnDContext.tsx";
+import ShipNode from "./ShipNode/ShipNode.tsx";
 import { Hero } from "../../types/types.ts";
+import { DnDProvider, useDnD } from "../../context/DnDContext.tsx";
 import { useHeroes } from "../../context/HeroesContext.tsx";
-import NotFoundPage from "../NotFoundPage/NotFoundPage.tsx";
 import { useFilms } from "../../context/FilmsContext.tsx";
+import { useShips } from "../../context/ShipsContext.tsx";
 
 const nodeTypes = {
   heroNode: HeroNode,
   filmNode: FilmNode,
+  shipNode: ShipNode,
 };
 
 const DndFlow = () => {
   const { id } = useParams<{ id: string }>();
   const { heroes } = useHeroes();
   const { films } = useFilms();
+  const { ships } = useShips();
   const [hero, setHero] = useState<Hero | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -101,7 +105,7 @@ const DndFlow = () => {
   );
 
   useEffect(() => {
-    if (hero && films.size > 0) {
+    if (hero && films.size > 0 && ships.size > 0) {
       const heroNodeId = `hero-${hero.id}`;
       const initialNodes: Node<any>[] = [
         {
@@ -110,31 +114,80 @@ const DndFlow = () => {
           data: hero,
           position: { x: 50, y: 50 },
         },
-        ...hero.films.map((filmId, index) => {
-          const filmData = films.get(filmId);
-          return {
-            id: `film-${filmId}`,
-            type: "filmNode",
-            data: filmData,
-            position: { x: (index - hero.films.length / 3) * 300, y: 400 },
-          };
-        }),
+        ...hero.films
+          .map((filmId, index) => {
+            const filmData = films.get(filmId);
+            const matchedShipsIds =
+              filmData?.starships.filter((shipId) =>
+                hero.starships.includes(shipId)
+              ) || [];
+            console.log("log matched", matchedShipsIds, filmData?.title);
+            const shipNodes = matchedShipsIds
+              .map((shipId, idx) => {
+                const shipData = ships.get(shipId);
+                return shipData
+                  ? {
+                      id: `ship-${shipId}`,
+                      type: "shipNode",
+                      data: shipData,
+                      position: {
+                        x: idx * 300,
+                        y: 800,
+                      },
+                    }
+                  : null;
+              })
+              .filter((node) => node !== null);
+
+            const filmNode = {
+              id: `film-${filmId}`,
+              type: "filmNode",
+              data: filmData,
+              position: { x: (index - hero.films.length / 3) * 300, y: 400 },
+            };
+
+            return [filmNode, ...shipNodes]; // Return film node and ship nodes
+          })
+          .flat(),
       ];
 
-      const initialEdges: Edge<any>[] = hero.films.map((filmId) => ({
-        id: `edge-${heroNodeId}-film-${filmId}`,
-        source: heroNodeId,
-        sourceHandle: heroNodeId,
-        target: `film-${filmId}`,
-        type: "smoothstep",
-        animated: true,
-        style: { stroke: "#000" },
-      }));
+      const initialEdges: Edge<any>[] = [
+        ...hero.films.map((filmId) => {
+          const filmNodeId = `film-${filmId}`;
+          return {
+            id: `edge-${heroNodeId}-${filmNodeId}`,
+            source: heroNodeId,
+            target: filmNodeId,
+            type: "smoothstep",
+            animated: true,
+            style: { stroke: "#000" },
+          };
+        }),
+        ...hero.films.flatMap((filmId) => {
+          const filmData = films.get(filmId);
+          const matchedShipsIds =
+            filmData?.starships.filter((shipId) =>
+              hero.starships.includes(shipId)
+            ) || [];
+
+          return matchedShipsIds.map((shipId) => {
+            const filmNodeId = `film-${filmId}`;
+            return {
+              id: `edge-${filmNodeId}-ship-${shipId}`,
+              source: filmNodeId,
+              target: `ship-${shipId}`,
+              type: "smoothstep",
+              animated: true,
+              style: { stroke: "#000" },
+            };
+          });
+        }),
+      ];
 
       setNodes(initialNodes);
       setEdges(initialEdges);
     }
-  }, [hero, films, setNodes, setEdges]);
+  }, [hero, films, ships, setNodes, setEdges]);
 
   let content;
 
